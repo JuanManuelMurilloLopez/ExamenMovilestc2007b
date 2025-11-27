@@ -3,6 +3,8 @@ package com.example.examenmoviles.di
 import android.content.Context
 import com.example.examenmoviles.data.local.preferences.CountryCovidPreferences
 import com.example.examenmoviles.data.remote.api.CovidApi
+import com.example.examenmoviles.data.repository.CountryCovidRepositoryImpl
+import com.example.examenmoviles.domain.repository.CountryCovidRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
