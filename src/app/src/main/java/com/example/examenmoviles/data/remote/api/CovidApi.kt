@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface CovidApi {
 
-    @GET("pokemon/{name}")
+    @GET("{name}")
     suspend fun getCountryCovid(
         @Path("name") id: String,
     ): CountryCovidDto

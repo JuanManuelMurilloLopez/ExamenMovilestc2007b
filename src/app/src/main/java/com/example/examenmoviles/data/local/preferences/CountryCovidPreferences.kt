@@ -3,6 +3,7 @@ package com.example.examenmoviles.data.local.preferences
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.examenmoviles.data.local.model.CountryCovidCache
+import com.example.examenmoviles.domain.model.CountryCovid
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -46,10 +47,10 @@ constructor(
         if (json == null) return null
 
         val type = object : TypeToken<CountryCovid>() {}.type
-        val pokemonList: List<CountryCovid> = gson.fromJson(json, type)
+        val countryData: List<CountryCovid> = gson.fromJson(json, type)
 
         return CountryCovidCache(
-            countryData = CountryCovid,
+            countryData = countryData,
             lastUpdate = lastUpdate,
             offset = offset,
             totalCount = totalCount,
