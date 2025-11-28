@@ -26,6 +26,8 @@ import com.example.examenmoviles.presentation.screens.HomeViewModel
 import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +37,9 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    var searchQuery by remember { mutableStateOf("") }
+    LaunchedEffect(Unit) {
+        viewModel.loadLastCountry()
+    }
 
     Scaffold(
         topBar = {
@@ -55,12 +59,12 @@ fun HomeScreen(
         ) {
 
             val filteredCountryList = uiState.countryList.filter { country ->
-                country.contains(searchQuery, ignoreCase = true)
+                country.contains(uiState.searchQuery, ignoreCase = true)
             }
 
             OutlinedTextField(
-                value = searchQuery,
-                onValueChange = { searchQuery = it },
+                value = uiState.searchQuery,
+                onValueChange = { viewModel.updateSearchQuery(it) },
                 placeholder = { Text("Buscar país") },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -71,7 +75,10 @@ fun HomeScreen(
                 countryList = filteredCountryList,
                 isLoading = uiState.isLoading,
                 error = uiState.error,
-                onCountryClick = onCountryClick
+                onCountryClick = { country ->
+                    viewModel.saveLastCountry(country)
+                    onCountryClick(country)
+                }
             )
         }
     }

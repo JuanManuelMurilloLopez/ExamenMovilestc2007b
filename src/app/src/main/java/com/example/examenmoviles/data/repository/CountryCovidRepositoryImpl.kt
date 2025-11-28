@@ -21,13 +21,18 @@ constructor(
         // Intentar obtener del caché primero
         preferences.getCountryCache()?.let { cache ->
             if (preferences.isCacheValid()) {
-                cache.countryData.find { it.country == name }?.let { return it }
+                cache.countryData.find { it.country == name }?.let {
+                    preferences.saveLastCountry(it.country)
+                    return it
+                }
             }
         }
 
         return try {
             // Si no hay caché o expiró, obtener de la API
-            api.getCountryCovid(name).first().toDomain()
+            val country = api.getCountryCovid(name).first().toDomain()
+            preferences.saveLastCountry(country.country)
+            country
         } catch (e: Exception) {
             // Si hay error, intentar buscar en el caché aunque haya expirado
             preferences.getCountryCache()?.let { cache ->

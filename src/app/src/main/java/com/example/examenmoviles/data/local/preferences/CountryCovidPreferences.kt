@@ -65,4 +65,14 @@ constructor(
     fun clearCache() {
         prefs.edit().clear().apply()
     }
+
+    fun saveLastCountry(name: String) {
+        prefs.edit()
+            .putString(PreferencesConstants.KEY_LAST_COUNTRY, name)
+            .apply()
+    }
+
+    fun getLastCountry(): String? {
+        return prefs.getString(PreferencesConstants.KEY_LAST_COUNTRY, null)
+    }
 }

@@ -16,8 +16,8 @@ constructor(
         flow {
             try {
                 emit(Result.Loading)
-                val pokemon = repository.getCountrybyName(name)
-                emit(Result.Success(pokemon))
+                val country = repository.getCountrybyName(name)
+                emit(Result.Success(country))
             } catch (e: Exception) {
                 emit(Result.Error(e))
             }

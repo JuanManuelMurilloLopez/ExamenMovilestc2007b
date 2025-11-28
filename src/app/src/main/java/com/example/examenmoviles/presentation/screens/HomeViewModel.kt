@@ -2,6 +2,7 @@ package com.example.examenmoviles.presentation.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.examenmoviles.data.local.preferences.CountryCovidPreferences
 import com.example.examenmoviles.presentation.screens.HomeUiState
 import com.example.examenmoviles.domain.usecase.GetCountryCovidUseCase
 import com.example.examenmoviles.data.mockCountryList
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getCountryCovidUseCase: GetCountryCovidUseCase,
+    private val preferences: CountryCovidPreferences,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -59,6 +61,21 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun loadLastCountry(){
+        val country = preferences.getLastCountry()
+        if (country != null) {
+            _uiState.value = _uiState.value.copy(
+                searchQuery = country,
+            )
+        }
+    }
+    fun updateSearchQuery(query: String) {
+        _uiState.value = _uiState.value.copy(searchQuery = query)
+    }
+    fun saveLastCountry(country: String) {
+        preferences.saveLastCountry(country)
     }
 }
 

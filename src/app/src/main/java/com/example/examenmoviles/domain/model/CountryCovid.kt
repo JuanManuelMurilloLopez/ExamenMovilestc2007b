@@ -2,7 +2,7 @@ package com.example.examenmoviles.domain.model
 
 data class CountryCovid(
     val country: String,
-    val region: String,
+    val region: String?,
     val cases: List<DailyInfo>
 )
 
