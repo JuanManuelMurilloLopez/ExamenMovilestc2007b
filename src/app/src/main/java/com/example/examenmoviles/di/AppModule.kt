@@ -14,18 +14,33 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
+import okhttp3.OkHttpClient
 import java.util.prefs.Preferences
 
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit =
+    fun provideOkHttpClient(): OkHttpClient =
+        OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader("X-Api-Key", "cjp3inHUoHC7M5I2vknvLA==vbqm2e1QlsTRkO4y")
+                    .build()
+                chain.proceed(request)
+            }
+            .build()
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(client: OkHttpClient): Retrofit =
         Retrofit
             .Builder()
-            .baseUrl("https://api.api-ninjas.com/v1/covid19?country=")
+            .baseUrl("https://api.api-ninjas.com/v1/")
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

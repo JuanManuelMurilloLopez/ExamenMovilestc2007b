@@ -7,7 +7,7 @@ import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class GetPokemonUseCase
+class GetCountryCovidUseCase
 @Inject
 constructor(
     private val repository: CountryCovidRepository,

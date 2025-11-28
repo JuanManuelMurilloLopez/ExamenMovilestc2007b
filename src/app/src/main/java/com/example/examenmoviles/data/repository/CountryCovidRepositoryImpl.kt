@@ -27,7 +27,7 @@ constructor(
 
         return try {
             // Si no hay caché o expiró, obtener de la API
-            api.getCountryCovid(name).toDomain()
+            api.getCountryCovid(name).first().toDomain()
         } catch (e: Exception) {
             // Si hay error, intentar buscar en el caché aunque haya expirado
             preferences.getCountryCache()?.let { cache ->

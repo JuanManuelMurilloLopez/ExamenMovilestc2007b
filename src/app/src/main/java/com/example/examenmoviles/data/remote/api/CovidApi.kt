@@ -7,8 +7,8 @@ import retrofit2.http.Query
 
 interface CovidApi {
 
-    @GET("{name}")
+    @GET("covid19")
     suspend fun getCountryCovid(
-        @Path("name") id: String,
-    ): CountryCovidDto
+        @Query("country") country: String
+    ): List<CountryCovidDto>
 }
